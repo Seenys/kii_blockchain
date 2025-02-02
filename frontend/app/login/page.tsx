@@ -1,7 +1,14 @@
-import React from "react";
+"use client";
 
-const page = () => {
-  return <div>test component</div>;
-};
+import ConnectWallet from "@/components/ConnectWallet";
 
-export default page;
+export default function Login() {
+  return (
+    <div className="min-h-screen  flex flex-col items-center justify-center">
+      <h1 className="text-4xl text-cosmos-light font-bold mb-4">
+        Conectar Billetera
+      </h1>
+      <ConnectWallet />
+    </div>
+  );
+}

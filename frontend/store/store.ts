@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface ContractState {
   contractInfo: string | null;
   setContractInfo: (info: string) => void;
-  contractAddress: string | null;
+  contractAddress: string;
   setContractAddress: (address: string) => void;
   isConnected: boolean;
   setIsConnected: (connected: boolean) => void;
@@ -15,7 +15,7 @@ export const useContractStore = create<ContractState>((set) => ({
   contractInfo: null,
   setContractInfo: (info) => set({ contractInfo: info }),
 
-  contractAddress: null,
+  contractAddress: "",
   setContractAddress: (address) => set({ contractAddress: address }),
 
   isConnected: false,
