@@ -1,3 +1,4 @@
+![KiiChain](https://github.com/user-attachments/assets/98948bd6-0fac-4c59-b10d-d912a911229a)
 # Kii Frontend - Contrato Inteligente
 
 Este proyecto es una aplicación que combina un frontend en **Next.js** con un contrato inteligente en **Solidity** para almacenar y consultar información privada de manera segura. La aplicación utiliza una **whitelist** para controlar el acceso a la información privada.
