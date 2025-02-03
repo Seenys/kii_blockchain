@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useContractStore } from "@/store/store";
 import { Button } from "./ui/button";
+import { motion } from "framer-motion";
 
 declare global {
   interface Window {
@@ -60,16 +61,20 @@ const ConnectWallet = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex flex-col items-center justify-center"
+    >
       <Button
         onClick={handleConnectWallet}
         className="w-full bg-cosmos-primary text-cosmos-light px-8 py-3 rounded-lg hover:bg-opacity-90 transition-all"
         disabled={isLoading}
       >
-        {isLoading ? "Conectando..." : "Conectar Billetera MetaMask"}
+        {isLoading ? "Conectando..." : "Conectar Billetera Con MetaMask"}
       </Button>
       {error && <p className="text-red-500 mt-4">{error}</p>}
-    </div>
+    </motion.div>
   );
 };
 

@@ -68,6 +68,7 @@ export default function Dashboard() {
         setContractInfo(newInfo);
         setNewInfo("");
       } catch (err) {
+        console.error("Error al actualizar la información:", err);
         toast({
           title: "Error al actualizar la información",
           description: "Por favor, intenta de nuevo.",
