@@ -18,7 +18,7 @@ export default function Dashboard() {
 
   const { toast } = useToast();
 
-  setContractAddress(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!); // Reemplaza con la dirección del contrato
+  setContractAddress("0x6Fe3A56215b906e8E1122F377A0CfEFAd1c7a876"); // Reemplaza con la dirección del contrato
   const abi = PrivateInfoStorage.abi;
 
   const fetchData = async () => {
