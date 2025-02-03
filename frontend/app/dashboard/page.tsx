@@ -11,7 +11,6 @@ import ContractInfo from "@/components/ContractInfo";
 import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
-  const [info, setInfo] = useState("");
   const [isOwner, setIsOwner] = useState(false);
   const [whitelist, setWhitelist] = useState<string[]>([]);
   const [newInfo, setNewInfo] = useState("");
@@ -43,7 +42,6 @@ export default function Dashboard() {
       }
 
       const privateInfo = await contract.getPrivateInfo();
-      setInfo(privateInfo);
       setContractInfo(privateInfo);
 
       const owner = await contract.owner();
@@ -79,7 +77,6 @@ export default function Dashboard() {
       try {
         const tx = await contract.storePrivateInfo(newInfo);
         await tx.wait();
-        setInfo(newInfo);
         setContractInfo(newInfo);
         setNewInfo("");
       } catch (err) {
@@ -97,7 +94,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen text-cosmos-light bg-gray-100 bg-opacity-0 backdrop-blur-lg flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-4 text-cosmos-light">Dashboard</h1>
-      <p className="mb-4">Información Privada: {info}</p>
       <ContractInfo />
       {isOwner && (
         <div>
