@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
@@ -15,7 +15,7 @@ declare global {
 }
 
 const ConnectWallet = () => {
-  const { setIsConnected, setUserAddress } = useContractStore();
+  const { setIsConnected, setUserAddress, isConnected } = useContractStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
@@ -59,6 +59,12 @@ const ConnectWallet = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isConnected) {
+      router.push("/dashboard");
+    }
+  }, [isConnected, router]);
 
   return (
     <motion.div

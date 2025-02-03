@@ -1,24 +1,26 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import PrivateInfoStorage from "@/contracts/PrivateInfoStorage.json";
+import PrivateInfoStorage from "../../contracts/PrivateInfoStorage.json";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useContractStore } from "@/store/store";
 import ContractInfo from "@/components/ContractInfo";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const [info, setInfo] = useState("");
   const [isOwner, setIsOwner] = useState(false);
   const [whitelist, setWhitelist] = useState<string[]>([]);
   const [newInfo, setNewInfo] = useState("");
-  const { setContractInfo, isConnected, contractAddress, setContractAddress } =
+  const { setContractInfo, isConnected, setContractAddress } =
     useContractStore();
 
+  const router = useRouter();
   const { toast } = useToast();
-
-  setContractAddress("0x6Fe3A56215b906e8E1122F377A0CfEFAd1c7a876"); // Reemplaza con la dirección del contrato
+  const contractAddress = "0x6Fe3A56215b906e8E1122F377A0CfEFAd1c7a876";
   const abi = PrivateInfoStorage.abi;
 
   const fetchData = async () => {
@@ -41,6 +43,7 @@ export default function Dashboard() {
       }
 
       const privateInfo = await contract.getPrivateInfo();
+      setInfo(privateInfo);
       setContractInfo(privateInfo);
 
       const owner = await contract.owner();
@@ -53,6 +56,17 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    if (!isConnected) {
+      toast({
+        title: "No estás conectado a la red",
+        description: "Por favor, conecta tu wallet.",
+        variant: "destructive",
+        duration: 5000,
+      });
+      router.push("/login");
+      return;
+    }
+    setContractAddress(contractAddress);
     fetchData();
   }, []);
 
@@ -65,10 +79,11 @@ export default function Dashboard() {
       try {
         const tx = await contract.storePrivateInfo(newInfo);
         await tx.wait();
+        setInfo(newInfo);
         setContractInfo(newInfo);
         setNewInfo("");
       } catch (err) {
-        console.error("Error al actualizar la información:", err);
+        console.error(err);
         toast({
           title: "Error al actualizar la información",
           description: "Por favor, intenta de nuevo.",
@@ -82,14 +97,8 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen text-cosmos-light bg-gray-100 bg-opacity-0 backdrop-blur-lg flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-4 text-cosmos-light">Dashboard</h1>
-      {isConnected ? (
-        <div>
-          <ContractInfo />
-        </div>
-      ) : (
-        <p className="text-lg mb-4">No estás conectado.</p>
-      )}
-
+      <p className="mb-4">Información Privada: {info}</p>
+      <ContractInfo />
       {isOwner && (
         <div>
           <h2 className="text-2xl font-bold mb-4">
